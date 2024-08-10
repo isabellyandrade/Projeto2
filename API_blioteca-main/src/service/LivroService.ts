@@ -6,55 +6,50 @@ export class LivroService{
     livroRepository: LivroRepository = new LivroRepository();
 
     async cadastrarLivro(livroData: any): Promise<Livro> {
-        const {title, author, publishedDate, isbn, pages, language, publisher} = livroData;
-        if(!title || !author || !publishedDate || !isbn || !pages || !language || !publisher ){
+        const {title, author, categoryId} = livroData;
+        if(!title || !author || !categoryId){
             throw new Error("Informações incompletas");
         }
-       const livro = await this.livroRepository.filterLivroByISBN(isbn);
-        if(livro.isbn = isbn){
-            throw new Error("Livro já cadastrado!")
-        }
-
-        const novoLivro =  await this.livroRepository.insertLivro(title, author, publishedDate, isbn, pages, language, publisher);
+        const novoLivro =  await this.livroRepository.insertLivro(title, author, categoryId);
         console.log("Service - Insert ", novoLivro);
         return novoLivro;
     }
 
     async atualizarLivro(livroData: any): Promise<Livro> {
-        const { id, title, author, publishedDate, isbn, pages, language, publisher } = livroData;
-        if(!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher ){
+        const { id, title, author, categoryId} = livroData;
+        if(!id || !title || !author || !categoryId){
             throw new Error("Informações incompletas");
         }
 
-        const livro =  await this.livroRepository.updateLivro(id,title, author, publishedDate, isbn, pages, language, publisher);
+        const livro =  await this.livroRepository.updateLivro(id,title, author, categoryId);
         console.log("Service - Update ", livro);
         return livro;
     }
 
     async deletarLivro(livroData: any): Promise<Livro> {
-        const { id, title, author, publishedDate, isbn, pages, language, publisher } = livroData;
-        if(!id || !title || !author || !publishedDate || !isbn || !pages || !language || !publisher ){
+        const { id, title, author, categoryId} = livroData;
+        if(!id || !title || !author || !categoryId){
             throw new Error("Informações incompletas");
         }
 
-        const livro =  await this.livroRepository.deleteLivro(id,title, author, publishedDate, isbn, pages, language, publisher);
+        const livro =  await this.livroRepository.deleteLivro(id,title, author, categoryId);
         console.log("Service - Delete ", livro);
         return livro;
     }
 
-    async filtrarLivroPorId(livroData: any): Promise<Livro> {
+    async filtrarLivroPorId(livroData: any): Promise<Livro[]> {
         if(!livroData ){
             throw new Error("Informações incompletas");
         }
         const id = parseInt(livroData, 10);
 
-        const livro =  await this.livroRepository.filterLivroById(id);
-        let teste: any = livro;
-        if(livro.isbn == ''){
+        const livros:Livro[] =  await this.livroRepository.filterLivroById(id);
+
+        if(livros.length == 0){
             throw new Error("Livro não encontrado!")
         }
-        console.log("Service - Filtrar", livro);
-        return livro;
+        console.log("Service - Filtrar", livros);
+        return livros;
     }
 
     async listarTodosLivros(): Promise<Livro[]> {
