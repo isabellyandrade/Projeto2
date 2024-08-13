@@ -1,13 +1,11 @@
 export class Usuario{
     id: number;
-    name: string;
-    email: string;
+    pessoaId: number;
     senha: string;
 
-    constructor(id?:number, name?:string, email?:string, senha?:string){
+    constructor(id?:number, pessoaId?:number, senha?:string){
         this.id = id || 0;
-        this.name = name || '';
-        this.email = email || '';
+        this.pessoaId = pessoaId || 0;
         this.senha = senha || '';
     }
 }

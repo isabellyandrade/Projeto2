@@ -45,30 +45,28 @@ export async function deletarLivro (req: Request, res: Response){
     }
 };
 
-export async function filtrarLivroPorId (req: Request, res: Response){
+export async function getLivro(req: Request, res: Response) {
     try {
-        const livro = await livroService.filtrarLivroPorId(req.query.id);
+        const livro = await livroService.getLivro(req.query.id, req.query.title, req.query.author, req.query.categoryId);
         res.status(200).json(
             {
-                mensagem:"Livro encontrado com sucesso!",
-                livro:livro
+                livro: livro
             }
         );
     } catch (error: any) {
-        res.status(404).json({ message: error.message});
+        res.status(400).json({ message: error.message });
     }
-};
+}
 
-export async function listarTodosLivros (req: Request, res: Response){
+export async function getLivros(res: Response) {
     try {
-        const livros = await livroService.listarTodosLivros();
+        const livro = await livroService.getTodosLivro();
         res.status(200).json(
             {
-                mensagem:"Livros listados com sucesso!",
-                livros:livros
+                livros: livro
             }
-            );
+        );
     } catch (error: any) {
-        res.status(400).json({ message: error.message});
+        res.status(400).json({ message: error.message });
     }
 };
