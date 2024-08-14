@@ -74,7 +74,7 @@ function getCategoria(req, res) {
         }
     });
 }
-function getCategorias(res) {
+function getCategorias(rep, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const categoria = yield categoriaService.getCategorias();

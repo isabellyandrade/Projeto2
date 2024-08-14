@@ -58,7 +58,7 @@ export async function getLivro(req: Request, res: Response) {
     }
 }
 
-export async function getLivros(res: Response) {
+export async function getLivros(req: Request, res: Response) {
     try {
         const livro = await livroService.getTodosLivro();
         res.status(200).json(

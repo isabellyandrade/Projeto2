@@ -74,7 +74,7 @@ function getLivro(req, res) {
         }
     });
 }
-function getLivros(res) {
+function getLivros(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const livro = yield livroService.getTodosLivro();
