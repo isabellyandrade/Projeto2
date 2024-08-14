@@ -2,10 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 class Usuario {
-    constructor(id, name, email, senha) {
+    constructor(id, pessoaId, senha) {
         this.id = id || 0;
-        this.name = name || '';
-        this.email = email || '';
+        this.pessoaId = pessoaId || 0;
         this.senha = senha || '';
     }
 }

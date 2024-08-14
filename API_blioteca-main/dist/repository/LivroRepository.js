@@ -11,10 +11,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LivroRepository = void 0;
 const mysql_1 = require("../database/mysql");
-const Livro_1 = require("../model/Livro");
 class LivroRepository {
     constructor() {
         this.createTable();
+    }
+    static getInstance() {
+        if (!this.instance) {
+            this.instance = new LivroRepository();
+        }
+        return this.instance;
     }
     createTable() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -34,16 +39,14 @@ class LivroRepository {
             }
         });
     }
-    insertLivro(title, author, categoryId) {
+    insertLivro(livro) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "INSERT INTO biblioteca.Livro (title, author, categoryId) VALUES (?, ?, ?)";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [title, author, categoryId]);
+                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [livro.title, livro.author, livro.categoryId]);
                 console.log('Livro inserido com sucesso, ID: ', resultado.insertId);
-                const livro = new Livro_1.Livro(resultado.insertId, title, author, categoryId);
-                return new Promise((resolve) => {
-                    resolve(livro);
-                });
+                livro.id = resultado.insertId;
+                return livro;
             }
             catch (err) {
                 console.error('Erro ao inserir o livro:', err);
@@ -51,67 +54,74 @@ class LivroRepository {
             }
         });
     }
-    updateLivro(id, title, author, categoryId) {
+    updateLivro(livro) {
         return __awaiter(this, void 0, void 0, function* () {
             const query = "UPDATE biblioteca.Livro set title = ?, author = ?, categoryId = ? where id = ?;";
+            (0, mysql_1.executarComandoSQL)(query, [livro.title, livro.author, livro.categoryId, livro.id])
+                .then(function (resultado) {
+                return resultado;
+            }).catch(function (erro) {
+                return erro;
+            });
+        });
+    }
+    deleteLivro(livro) {
+        return __awaiter(this, void 0, void 0, function* () {
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [title, author, categoryId, id]);
-                console.log('Livro atualizado com sucesso, ID: ', resultado);
-                const livro = new Livro_1.Livro(id, title, author, categoryId);
-                return new Promise((resolve) => {
-                    resolve(livro);
-                });
+                const query = "DELETE FROM biblioteca.Livro where id = ?;";
+                const resposta = yield (0, mysql_1.executarComandoSQL)(query, [livro.id, livro.title, livro.author, livro.categoryId]);
+                console.log('Livro deletado com sucesso:', resposta);
+                return resposta;
             }
             catch (err) {
-                console.error(`Erro ao atualizar o livro de ID ${id} gerando o erro: ${err}`);
+                console.error('Erro ao deletar livro:', err);
                 throw err;
             }
         });
     }
-    deleteLivro(id, title, author, categoryId) {
+    getLivroPorIdOuTittleOuAuthorOuCategoria(id, title, author, categoryId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "DELETE FROM biblioteca.Livro where id = ?;";
+            let query = "SELECT * FROM biblioteca.Livro WHERE";
+            const params = [];
+            if (id) {
+                query += " id = ?";
+                params.push(id);
+            }
+            if (title) {
+                query += (params.length ? " AND" : "") + " title = ?";
+                params.push(title);
+            }
+            if (author) {
+                query += (params.length ? " AND" : "") + " author = ?";
+                params.push(author);
+            }
+            if (categoryId) {
+                query += (params.length ? " AND" : "") + " categoryId = ?";
+                params.push(categoryId);
+            }
+            if (params.length === 0) {
+                throw new Error("Pelo menos um dos parâmetros deve ser fornecido");
+            }
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Livro deletado com sucesso, ID: ', resultado);
-                const livro = new Livro_1.Livro(id, title, author, categoryId);
-                return new Promise((resolve) => {
-                    resolve(livro);
-                });
+                const result = yield (0, mysql_1.executarComandoSQL)(query, params);
+                console.log('Busca efetuada com sucesso:', result);
+                return result;
             }
             catch (err) {
-                console.error(`Falha ao deletar o livro de ID ${id} gerando o erro: ${err}`);
-                throw err;
-            }
-        });
-    }
-    filterLivroById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Livro where id = ?";
-            try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, [id]);
-                console.log('Livro localizado com sucesso, ID: ', resultado);
-                return new Promise((resolve) => {
-                    resolve(resultado);
-                });
-            }
-            catch (err) {
-                console.error(`Falha ao procurar o livro de ID ${id} gerando o erro: ${err}`);
+                console.error('Erro ao buscar livro:', err);
                 throw err;
             }
         });
     }
     filterAllLivro() {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = "SELECT * FROM biblioteca.Livro";
             try {
-                const resultado = yield (0, mysql_1.executarComandoSQL)(query, []);
-                return new Promise((resolve) => {
-                    resolve(resultado);
-                });
+                const query = "SELECT * FROM biblioteca.Livro";
+                const result = yield (0, mysql_1.executarComandoSQL)(query, []);
+                return result;
             }
             catch (err) {
-                console.error(`Falha ao listar os livros gerando o erro: ${err}`);
+                console.error('Erro ao listar os livros:', err);
                 throw err;
             }
         });

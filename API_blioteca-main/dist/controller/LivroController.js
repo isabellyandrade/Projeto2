@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.cadastrarLivro = cadastrarLivro;
 exports.atualizarLivro = atualizarLivro;
 exports.deletarLivro = deletarLivro;
-exports.filtrarLivroPorId = filtrarLivroPorId;
-exports.listarTodosLivros = listarTodosLivros;
+exports.getLivro = getLivro;
+exports.getLivros = getLivros;
 const LivroService_1 = require("../service/LivroService");
 const livroService = new LivroService_1.LivroService();
 function cadastrarLivro(req, res) {
@@ -61,28 +61,25 @@ function deletarLivro(req, res) {
     });
 }
 ;
-function filtrarLivroPorId(req, res) {
+function getLivro(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const livro = yield livroService.filtrarLivroPorId(req.query.id);
+            const livro = yield livroService.getLivro(req.query.id, req.query.title, req.query.author, req.query.categoryId);
             res.status(200).json({
-                mensagem: "Livro encontrado com sucesso!",
                 livro: livro
             });
         }
         catch (error) {
-            res.status(404).json({ message: error.message });
+            res.status(400).json({ message: error.message });
         }
     });
 }
-;
-function listarTodosLivros(req, res) {
+function getLivros(res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const livros = yield livroService.listarTodosLivros();
+            const livro = yield livroService.getTodosLivro();
             res.status(200).json({
-                mensagem: "Livros listados com sucesso!",
-                livros: livros
+                livros: livro
             });
         }
         catch (error) {

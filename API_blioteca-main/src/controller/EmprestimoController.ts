@@ -45,9 +45,9 @@ export async function deletarEmprestimo (req: Request, res: Response){
     }
 };
 
-export async function filtrarEmprestimoPorId (req: Request, res: Response){
+export async function getEmprestimo (req: Request, res: Response){
     try {
-        const emprestimo = await emprestimoService.filtrarEmprestimoPorId(req.query.id);
+        const emprestimo = await emprestimoService.getEmprestimo(req.query.id, req.query.livroId, req.query.usuarioId, req.query.dataEmprestimo, req.query.dataDevolucao);
         res.status(200).json(
             {
                 mensagem:"Emprestimo encontrado com sucesso!",
@@ -59,9 +59,9 @@ export async function filtrarEmprestimoPorId (req: Request, res: Response){
     }
 };
 
-export async function listarTodosEmprestimos (req: Request, res: Response){
+export async function getEmprestimos (req: Request, res: Response){
     try {
-        const emprestimos = await emprestimoService.listarTodosEmprestimos();
+        const emprestimos = await emprestimoService.getTodosEmprestimo();
         res.status(200).json(
             {
                 mensagem:"Emprestimos listados com sucesso!",

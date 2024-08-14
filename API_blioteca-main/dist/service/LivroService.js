@@ -10,10 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LivroService = void 0;
+const Livro_1 = require("../model/Livro");
 const LivroRepository_1 = require("../repository/LivroRepository");
+const CategoriaRepository_1 = require("../repository/CategoriaRepository");
 class LivroService {
     constructor() {
-        this.livroRepository = new LivroRepository_1.LivroRepository();
+        this.livroRepository = LivroRepository_1.LivroRepository.getInstance();
+        this.categoriaRepository = CategoriaRepository_1.CategoriaRepository.getInstance();
     }
     cadastrarLivro(livroData) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -21,52 +24,49 @@ class LivroService {
             if (!title || !author || !categoryId) {
                 throw new Error("Informações incompletas");
             }
-            const novoLivro = yield this.livroRepository.insertLivro(title, author, categoryId);
-            console.log("Service - Insert ", novoLivro);
-            return novoLivro;
+            const categorias = yield this.categoriaRepository.getCategoriaByIdOuName(undefined, categoryId);
+            if (categorias.length == 0) {
+                throw new Error("Categoria não encontrada");
+            }
+            return this.livroRepository.insertLivro(new Livro_1.Livro(undefined, title, author, categoryId));
         });
     }
     atualizarLivro(livroData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, title, author, categoryId } = livroData;
-            if (!id || !title || !author || !categoryId) {
-                throw new Error("Informações incompletas");
+            const livro = new Livro_1.Livro(livroData.id, livroData.title, livroData.author, livroData.categoryId);
+            if (!(livro instanceof Livro_1.Livro)) {
+                throw new Error("O parâmetro passado não é um objeto do tipo Livro");
             }
-            const livro = yield this.livroRepository.updateLivro(id, title, author, categoryId);
-            console.log("Service - Update ", livro);
+            this.livroRepository.updateLivro(livro);
             return livro;
         });
     }
     deletarLivro(livroData) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id, title, author, categoryId } = livroData;
-            if (!id || !title || !author || !categoryId) {
-                throw new Error("Informações incompletas");
+            const livro = new Livro_1.Livro(livroData.id, livroData.title, livroData.author, livroData.categoryId);
+            if (!(livro instanceof Livro_1.Livro)) {
+                throw new Error("O parâmetro passado não é um objeto do tipo Livro");
             }
-            const livro = yield this.livroRepository.deleteLivro(id, title, author, categoryId);
-            console.log("Service - Delete ", livro);
+            const result = yield this.livroRepository.deleteLivro(livro);
+            if (result.affectedRows == 0) {
+                throw new Error("Livro não encontrado.");
+            }
             return livro;
         });
     }
-    filtrarLivroPorId(livroData) {
+    getLivro(id, title, author, categoryId) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!livroData) {
-                throw new Error("Informações incompletas");
+            const idNumber = parseInt(id, 10);
+            const result = yield this.livroRepository.getLivroPorIdOuTittleOuAuthorOuCategoria(title, author, categoryId, idNumber);
+            if (result.length > 0) {
+                return result[0];
             }
-            const id = parseInt(livroData, 10);
-            const livros = yield this.livroRepository.filterLivroById(id);
-            if (livros.length == 0) {
-                throw new Error("Livro não encontrado!");
-            }
-            console.log("Service - Filtrar", livros);
-            return livros;
+            return null;
         });
     }
-    listarTodosLivros() {
+    getTodosLivro() {
         return __awaiter(this, void 0, void 0, function* () {
-            const livro = yield this.livroRepository.filterAllLivro();
-            console.log("Service - Filtrar Todos", livro);
-            return livro;
+            return this.livroRepository.filterAllLivro();
         });
     }
 }
