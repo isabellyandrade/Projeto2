@@ -74,7 +74,7 @@ function getPessoa(req, res) {
         }
     });
 }
-function getPessoas(res) {
+function getPessoas(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const pessoa = yield pessoaService.getPessoas();

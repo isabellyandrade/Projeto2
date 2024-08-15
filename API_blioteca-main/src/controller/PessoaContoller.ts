@@ -58,7 +58,7 @@ export async function getPessoa(req: Request, res: Response) {
     }
 }
 
-export async function getPessoas(res: Response) {
+export async function getPessoas(req: Request, res: Response) {
     try {
         const pessoa = await pessoaService.getPessoas();
         res.status(200).json(

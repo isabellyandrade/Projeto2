@@ -18,7 +18,7 @@ export class UsuarioRepository{
 
     private async createTable() {
         const query = `
-        CREATE TABLE IF NOT EXISTS biblioteca.Pessoa (
+        CREATE TABLE IF NOT EXISTS biblioteca.Usuario (
             id INT AUTO_INCREMENT PRIMARY KEY,
             pessoaId INT NOT NULL,
             senha VARCHAR(255) NOT NULL

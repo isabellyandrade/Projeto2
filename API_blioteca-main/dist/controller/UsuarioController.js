@@ -74,7 +74,7 @@ function getUsuario(req, res) {
         }
     });
 }
-function getUsuarios(res) {
+function getUsuarios(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const usuario = yield usuarioService.getTodosUsuario();

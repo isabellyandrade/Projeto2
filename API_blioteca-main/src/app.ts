@@ -3,6 +3,7 @@ import { cadastrarLivro, atualizarLivro , deletarLivro, getLivro, getLivros } fr
 import { cadastrarCategoria, atualizarCategoria , deletarCategoria, getCategoria, getCategorias } from './controller/CategoriaController';
 import { cadastrarEmprestimo, atualizarEmprestimo , deletarEmprestimo, getEmprestimo, getEmprestimos } from './controller/EmprestimoController';
 import { cadastrarUsuario, atualizarUsuario , deletarUsuario, getUsuario, getUsuarios } from './controller/UsuarioController';
+import { cadastrarPessoa, atualizarPessoa , deletarPessoa, getPessoa, getPessoas } from './controller/PessoaContoller';
 
 
 const app = express();
@@ -34,6 +35,12 @@ app.post("/api/usuario", cadastrarUsuario)
 app.put("/api/usuario", atualizarUsuario)
 app.delete("/api/usuario", deletarUsuario)
 app.get("/api/usuario", getUsuario)
-app.get("/api/usuario/todos", getUsuario)
+app.get("/api/usuario/todos", getUsuarios)
+
+app.post("/api/pessoa", cadastrarPessoa)
+app.put("/api/pessoa", atualizarPessoa)
+app.delete("/api/pessoa", deletarPessoa)
+app.get("/api/pessoa", getPessoa)
+app.get("/api/pessoa/todos", getPessoas)
 
 app.listen(PORT, ()=> console.log("API online na porta: " + PORT));

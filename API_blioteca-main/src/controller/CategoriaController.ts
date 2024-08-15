@@ -58,7 +58,7 @@ export async function getCategoria(req: Request, res: Response) {
     }
 }
 
-export async function getCategorias(rep: Request, res: Response) {
+export async function getCategorias(req: Request, res: Response) {
     try {
         const categoria = await categoriaService.getCategorias();
         res.status(200).json(
