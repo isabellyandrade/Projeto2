@@ -1,72 +1,85 @@
-import e, { Request, Response } from "express";
 import { PessoaService } from "../service/PessoaService";
+import{Route, Tags, Post, Body, Res, Put, Get, Query, Delete, Controller, TsoaResponse } from "tsoa";
+import { BasicResponseDto } from "../model/dto/BasicResponseDto";
+import { PessoaRequestDto } from "../model/dto/PessoaRequestDto";
+import { PessoaDto } from "../model/dto/PessoaDto";
 
-const pessoaService = new PessoaService();
+@Route("pessoa")
+@Tags("Pessoa")
+export class PessoaController extends Controller{
+    pessoaService = new PessoaService();
 
-export async function cadastrarPessoa(req: Request, res: Response){
+    @Post()
+    async cadastrarPessoa(
+        @Body() dto: PessoaRequestDto,
+        @Res() fail: TsoaResponse<409, BasicResponseDto>,
+        @Res() success: TsoaResponse<201, BasicResponseDto>
+    ): Promise<void>{
+        try {
+            const novaPessoa = await this.pessoaService.cadastrarPessoa(dto);
+            return success(201, new BasicResponseDto("Pessoa adicionada com sucesso!", novaPessoa));
+    }catch (error: any) {
+        return fail(409, new BasicResponseDto(error.message, undefined));
+    }
+
+};
+
+    @Put()
+    async atualizarPessoa(
+        @Body() dto: PessoaDto,
+        @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+        @Res() success: TsoaResponse<200, BasicResponseDto>
+    ): Promise<void>{
+        try {
+            const pessoa = await this.pessoaService.atualizarPessoa(dto);
+            return success(200, new BasicResponseDto("Pessoa atualizada com sucesso!", pessoa));
+    }catch (error: any) {
+        return notFound(400, new BasicResponseDto(error.message, undefined));
+    }
+
+};
+
+    @Delete()
+    async deletarPessoa(
+        @Body() dto: PessoaDto,
+        @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+        @Res() success: TsoaResponse<200, BasicResponseDto>
+    ): Promise<void>{
+        try {
+            const categoria = await this.pessoaService.deletarPessoa(dto);
+            return success(200, new BasicResponseDto("Pessoa deletada com sucesso!", categoria));
+    }catch (error: any) {
+        return notFound(400, new BasicResponseDto(error.message, undefined));
+    }
+
+};
+
+@Get()
+async getPessoa(
+    @Query() id: number,
+    @Query() name: string,
+    @Query() email: string,
+    @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>
+): Promise<void> {
     try {
-        const novaPessoa = await pessoaService.cadastrarPessoa(req.body);
-        res.status(201).json(
-            {
-                mensagem:"Pessoa adicionada com sucesso!",
-                pessoa:novaPessoa
-            }
-        );
-    } catch (error: any) {
-        res.status(409).json({ message: error.message});
+        const pessoa = await this.pessoaService.getPessoa(id, name, email);     
+        return success(200, new BasicResponseDto("Pessoa encontrada!", pessoa));
+    }catch (error: any) {
+        return notFound(400, new BasicResponseDto("Pessoa não encontrada...", undefined));
     }
 };
 
-export async function atualizarPessoa(req: Request, res: Response){
+@Get("todos")
+async getPessoas(
+    @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>
+): Promise<void> {
     try {
-        const pessoa = await pessoaService.atualizarPessoa(req.body);
-        res.status(200).json(
-            {
-                mensagem:"Pessoa atualizada com sucesso!",
-                pessoa:pessoa
-            }
-        );
-    } catch (error: any) {
-        res.status(400).json({ message: error.message});
+        const pessoas = await this.pessoaService.getPessoas();     
+        return success(200, new BasicResponseDto("Pessoas encontradas!", pessoas));
+    }catch (error: any) {
+        return notFound(400, new BasicResponseDto("Pessoas não encontradas...", undefined));
     }
-};
-
-export async function deletarPessoa (req: Request, res: Response){
-    try {
-        const pessoa = await pessoaService.deletarPessoa(req.body);
-        res.status(200).json(
-            {
-                mensagem:"Pessoa deletada com sucesso!",
-                pessoa:pessoa
-            }
-        );
-    } catch (error: any) {
-        res.status(400).json({ message: error.message});
-    }
-};
-
-export async function getPessoa(req: Request, res: Response) {
-    try {
-        const pessoa = await pessoaService.getPessoa(req.query.id, req.query.name, req.query.email);
-        res.status(200).json(
-            {
-                pessoa: pessoa
-            }
-        );
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
-    }
-}
-
-export async function getPessoas(req: Request, res: Response) {
-    try {
-        const pessoa = await pessoaService.getPessoas();
-        res.status(200).json(
-            {
-                pessoas: pessoa
-            }
-        );
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
-    }
+};     
 };

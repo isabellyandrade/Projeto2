@@ -1,72 +1,85 @@
-import e, { Request, Response } from "express";
 import { UsuarioService } from "../service/UsuarioService";
+import{Route, Tags, Post, Body, Res, Put, Get, Query, Delete, Controller, TsoaResponse } from "tsoa";
+import { BasicResponseDto } from "../model/dto/BasicResponseDto";
+import { UsuarioRequestDto } from "../model/dto/UsuarioRequestDto";
+import { UsuarioDto } from "../model/dto/UsuarioDto";
 
-const usuarioService = new UsuarioService();
+@Route("usuario")
+@Tags("Usuario")
+export class UsuarioController extends Controller{
+    usuarioService = new UsuarioService();
 
-export async function cadastrarUsuario(req: Request, res: Response){
+    @Post()
+    async cadastrarUsuario(
+        @Body() dto: UsuarioRequestDto,
+        @Res() fail: TsoaResponse<409, BasicResponseDto>,
+        @Res() success: TsoaResponse<201, BasicResponseDto>
+    ): Promise<void>{
+        try {
+            const novoUsuario = await this.usuarioService.cadastrarUsuario(dto);
+            return success(201, new BasicResponseDto("Usuário adicionado com sucesso!", novoUsuario));
+    }catch (error: any) {
+        return fail(409, new BasicResponseDto(error.message, undefined));
+    }
+
+};
+
+    @Put()
+    async atualizarUsuario(
+        @Body() dto: UsuarioDto,
+        @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+        @Res() success: TsoaResponse<200, BasicResponseDto>
+    ): Promise<void>{
+        try {
+            const usuario = await this.usuarioService.atualizarUsuario(dto);
+            return success(200, new BasicResponseDto("Usuário atualizado com sucesso!", usuario));
+    }catch (error: any) {
+        return notFound(400, new BasicResponseDto(error.message, undefined));
+    }
+
+};
+
+    @Delete()
+    async deletarCategoria(
+        @Body() dto: UsuarioDto,
+        @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+        @Res() success: TsoaResponse<200, BasicResponseDto>
+    ): Promise<void>{
+        try {
+            const usuario = await this.usuarioService.deletarUsuario(dto);
+            return success(200, new BasicResponseDto("Usuário deletado com sucesso!", usuario));
+    }catch (error: any) {
+        return notFound(400, new BasicResponseDto(error.message, undefined));
+    }
+
+};
+
+@Get()
+async getUsuario(
+    @Query() id: number,
+    @Query() pessoaId: number,
+    @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>
+): Promise<void> {
     try {
-        const novoUsuario = await usuarioService.cadastrarUsuario(req.body);
-        res.status(201).json(
-            {
-                mensagem:"Usuario adicionado com sucesso!",
-                usuario:novoUsuario
-            }
-        );
+        const usuario = await this.usuarioService.getUsuario(id, pessoaId);     
+        return success(200, new BasicResponseDto("Usuário encontrado!", usuario));
     } catch (error: any) {
-        res.status(409).json({ message: error.message});
+        return notFound(400, new BasicResponseDto("Usuário não encontrado...", undefined));
     }
 };
 
-export async function atualizarUsuario(req: Request, res: Response){
+@Get("todos")
+async getUsuarios(
+    @Res() notFound: TsoaResponse<400, BasicResponseDto>,
+    @Res() success: TsoaResponse<200, BasicResponseDto>
+): Promise<void> {
     try {
-        const usuario = await usuarioService.atualizarUsuario(req.body);
-        res.status(200).json(
-            {
-                mensagem:"Usuario atualizado com sucesso!",
-                usuario:usuario
-            }
-        );
+        const usuarios = await this.usuarioService.getTodosUsuario();     
+        return success(200, new BasicResponseDto("Usuários encontrado!", usuarios));
     } catch (error: any) {
-        res.status(400).json({ message: error.message});
+        return notFound(400, new BasicResponseDto("Usuários não encontrados...", undefined));
     }
 };
-
-export async function deletarUsuario (req: Request, res: Response){
-    try {
-        const usuario = await usuarioService.deletarUsuario(req.body);
-        res.status(200).json(
-            {
-                mensagem:"Usuario deletado com sucesso!",
-                usuario:usuario
-            }
-        );
-    } catch (error: any) {
-        res.status(400).json({ message: error.message});
-    }
-};
-
-export async function getUsuario(req: Request, res: Response) {
-    try {
-        const usuario = await usuarioService.getUsuario(req.query.id, req.query.pessoaId);
-        res.status(200).json(
-            {
-                usuario: usuario
-            }
-        );
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
-    }
-}
-
-export async function getUsuarios(req: Request, res: Response) {
-    try {
-        const usuario = await usuarioService.getTodosUsuario();
-        res.status(200).json(
-            {
-                usuarios: usuario
-            }
-        );
-    } catch (error: any) {
-        res.status(400).json({ message: error.message });
-    }
+      
 };

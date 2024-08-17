@@ -15,11 +15,64 @@ exports.RegisterRoutes = void 0;
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const runtime_1 = require("@tsoa/runtime");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const UsuarioController_1 = require("./../controller/UsuarioController");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const PessoaContoller_1 = require("./../controller/PessoaContoller");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const LivroController_1 = require("./../controller/LivroController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const EmprestimoController_1 = require("./../controller/EmprestimoController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const CategoriaController_1 = require("./../controller/CategoriaController");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const models = {
+    "UsuarioRequestDto": {
+        "dataType": "refObject",
+        "properties": {
+            "pessoaId": { "dataType": "double", "required": true },
+            "senha": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BasicResponseDto": {
+        "dataType": "refObject",
+        "properties": {
+            "message": { "dataType": "string", "required": true },
+            "object": { "dataType": "any", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UsuarioDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "double", "required": true },
+            "pessoaId": { "dataType": "double", "required": true },
+            "senha": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PessoaRequestDto": {
+        "dataType": "refObject",
+        "properties": {
+            "name": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PessoaDto": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "double", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "email": { "dataType": "string", "required": true },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "LivroResquestDto": {
         "dataType": "refObject",
         "properties": {
@@ -30,11 +83,13 @@ const models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "BasicResponseDto": {
+    "LivroDto": {
         "dataType": "refObject",
         "properties": {
-            "message": { "dataType": "string", "required": true },
-            "object": { "dataType": "any", "required": true },
+            "id": { "dataType": "double", "required": true },
+            "title": { "dataType": "string", "required": true },
+            "author": { "dataType": "string", "required": true },
+            "categoryId": { "dataType": "double", "required": true },
         },
         "additionalProperties": false,
     },
@@ -87,7 +142,278 @@ function RegisterRoutes(app) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-    app.post('/livro', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController.prototype.cadastrarLivro)), function CategoriaController_cadastrarLivro(request, response, next) {
+    app.post('/usuario', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.cadastrarUsuario)), function UsuarioController_cadastrarUsuario(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "UsuarioRequestDto" },
+                fail: { "in": "res", "name": "409", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new UsuarioController_1.UsuarioController();
+                yield templateService.apiHandler({
+                    methodName: 'cadastrarUsuario',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/usuario', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.atualizarUsuario)), function UsuarioController_atualizarUsuario(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "UsuarioDto" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new UsuarioController_1.UsuarioController();
+                yield templateService.apiHandler({
+                    methodName: 'atualizarUsuario',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.delete('/usuario', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.deletarCategoria)), function UsuarioController_deletarCategoria(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "UsuarioDto" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new UsuarioController_1.UsuarioController();
+                yield templateService.apiHandler({
+                    methodName: 'deletarCategoria',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/usuario', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.getUsuario)), function UsuarioController_getUsuario(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                id: { "in": "query", "name": "id", "required": true, "dataType": "double" },
+                pessoaId: { "in": "query", "name": "pessoaId", "required": true, "dataType": "double" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new UsuarioController_1.UsuarioController();
+                yield templateService.apiHandler({
+                    methodName: 'getUsuario',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/usuario/todos', ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController)), ...((0, runtime_1.fetchMiddlewares)(UsuarioController_1.UsuarioController.prototype.getUsuarios)), function UsuarioController_getUsuarios(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new UsuarioController_1.UsuarioController();
+                yield templateService.apiHandler({
+                    methodName: 'getUsuarios',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/pessoa', ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController)), ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController.prototype.cadastrarPessoa)), function PessoaController_cadastrarPessoa(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "PessoaRequestDto" },
+                fail: { "in": "res", "name": "409", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "201", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new PessoaContoller_1.PessoaController();
+                yield templateService.apiHandler({
+                    methodName: 'cadastrarPessoa',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/pessoa', ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController)), ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController.prototype.atualizarPessoa)), function PessoaController_atualizarPessoa(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "PessoaDto" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new PessoaContoller_1.PessoaController();
+                yield templateService.apiHandler({
+                    methodName: 'atualizarPessoa',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.delete('/pessoa', ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController)), ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController.prototype.deletarPessoa)), function PessoaController_deletarPessoa(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "PessoaDto" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new PessoaContoller_1.PessoaController();
+                yield templateService.apiHandler({
+                    methodName: 'deletarPessoa',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/pessoa', ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController)), ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController.prototype.getPessoa)), function PessoaController_getPessoa(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                id: { "in": "query", "name": "id", "required": true, "dataType": "double" },
+                name: { "in": "query", "name": "name", "required": true, "dataType": "string" },
+                email: { "in": "query", "name": "email", "required": true, "dataType": "string" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new PessoaContoller_1.PessoaController();
+                yield templateService.apiHandler({
+                    methodName: 'getPessoa',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/pessoa/todos', ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController)), ...((0, runtime_1.fetchMiddlewares)(PessoaContoller_1.PessoaController.prototype.getPessoas)), function PessoaController_getPessoas(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new PessoaContoller_1.PessoaController();
+                yield templateService.apiHandler({
+                    methodName: 'getPessoas',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.post('/livro', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController.prototype.cadastrarLivro)), function LivroController_cadastrarLivro(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
                 dto: { "in": "body", "name": "dto", "required": true, "ref": "LivroResquestDto" },
@@ -98,9 +424,119 @@ function RegisterRoutes(app) {
             let validatedArgs = [];
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
-                const controller = new LivroController_1.CategoriaController();
+                const controller = new LivroController_1.LivroController();
                 yield templateService.apiHandler({
                     methodName: 'cadastrarLivro',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.put('/livro', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController.prototype.atualizarLivro)), function LivroController_atualizarLivro(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "LivroDto" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new LivroController_1.LivroController();
+                yield templateService.apiHandler({
+                    methodName: 'atualizarLivro',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.delete('/livro', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController.prototype.deletarLivro)), function LivroController_deletarLivro(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                dto: { "in": "body", "name": "dto", "required": true, "ref": "LivroDto" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new LivroController_1.LivroController();
+                yield templateService.apiHandler({
+                    methodName: 'deletarLivro',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/livro', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController.prototype.getLivro)), function LivroController_getLivro(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                id: { "in": "query", "name": "id", "required": true, "dataType": "double" },
+                title: { "in": "query", "name": "title", "required": true, "dataType": "string" },
+                author: { "in": "query", "name": "author", "required": true, "dataType": "string" },
+                categoryId: { "in": "query", "name": "categoryId", "required": true, "dataType": "string" },
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new LivroController_1.LivroController();
+                yield templateService.apiHandler({
+                    methodName: 'getLivro',
+                    controller,
+                    response,
+                    next,
+                    validatedArgs,
+                    successStatus: undefined,
+                });
+            }
+            catch (err) {
+                return next(err);
+            }
+        });
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/livro/todos', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.LivroController.prototype.getLivros)), function LivroController_getLivros(request, response, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const args = {
+                notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
+                success: { "in": "res", "name": "200", "required": true, "ref": "BasicResponseDto" },
+            };
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+            let validatedArgs = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args, request, response });
+                const controller = new LivroController_1.LivroController();
+                yield templateService.apiHandler({
+                    methodName: 'getLivros',
                     controller,
                     response,
                     next,
@@ -252,7 +688,7 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/categoria', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController.prototype.cadastrarCategoria)), function CategoriaController_cadastrarCategoria(request, response, next) {
+    app.post('/categoria', ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController.prototype.cadastrarCategoria)), function CategoriaController_cadastrarCategoria(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
                 dto: { "in": "body", "name": "dto", "required": true, "ref": "CategoriaRequestDto" },
@@ -263,7 +699,7 @@ function RegisterRoutes(app) {
             let validatedArgs = [];
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
-                const controller = new LivroController_1.CategoriaController();
+                const controller = new CategoriaController_1.CategoriaController();
                 yield templateService.apiHandler({
                     methodName: 'cadastrarCategoria',
                     controller,
@@ -279,7 +715,7 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.put('/categoria', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController.prototype.atualizarCategoria)), function CategoriaController_atualizarCategoria(request, response, next) {
+    app.put('/categoria', ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController.prototype.atualizarCategoria)), function CategoriaController_atualizarCategoria(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
                 dto: { "in": "body", "name": "dto", "required": true, "ref": "CategoriaDto" },
@@ -290,7 +726,7 @@ function RegisterRoutes(app) {
             let validatedArgs = [];
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
-                const controller = new LivroController_1.CategoriaController();
+                const controller = new CategoriaController_1.CategoriaController();
                 yield templateService.apiHandler({
                     methodName: 'atualizarCategoria',
                     controller,
@@ -306,7 +742,7 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.delete('/categoria', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController.prototype.deletarCategoria)), function CategoriaController_deletarCategoria(request, response, next) {
+    app.delete('/categoria', ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController.prototype.deletarCategoria)), function CategoriaController_deletarCategoria(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
                 dto: { "in": "body", "name": "dto", "required": true, "ref": "CategoriaDto" },
@@ -317,7 +753,7 @@ function RegisterRoutes(app) {
             let validatedArgs = [];
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
-                const controller = new LivroController_1.CategoriaController();
+                const controller = new CategoriaController_1.CategoriaController();
                 yield templateService.apiHandler({
                     methodName: 'deletarCategoria',
                     controller,
@@ -333,7 +769,7 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/categoria', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController.prototype.getCategoria)), function CategoriaController_getCategoria(request, response, next) {
+    app.get('/categoria', ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController.prototype.getCategoria)), function CategoriaController_getCategoria(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
                 id: { "in": "query", "name": "id", "required": true, "dataType": "double" },
@@ -345,7 +781,7 @@ function RegisterRoutes(app) {
             let validatedArgs = [];
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
-                const controller = new LivroController_1.CategoriaController();
+                const controller = new CategoriaController_1.CategoriaController();
                 yield templateService.apiHandler({
                     methodName: 'getCategoria',
                     controller,
@@ -361,7 +797,7 @@ function RegisterRoutes(app) {
         });
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/categoria/todos', ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(LivroController_1.CategoriaController.prototype.getCategorias)), function CategoriaController_getCategorias(request, response, next) {
+    app.get('/categoria/todos', ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController)), ...((0, runtime_1.fetchMiddlewares)(CategoriaController_1.CategoriaController.prototype.getCategorias)), function CategoriaController_getCategorias(request, response, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const args = {
                 notFound: { "in": "res", "name": "400", "required": true, "ref": "BasicResponseDto" },
@@ -371,7 +807,7 @@ function RegisterRoutes(app) {
             let validatedArgs = [];
             try {
                 validatedArgs = templateService.getValidatedArgs({ args, request, response });
-                const controller = new LivroController_1.CategoriaController();
+                const controller = new CategoriaController_1.CategoriaController();
                 yield templateService.apiHandler({
                     methodName: 'getCategorias',
                     controller,

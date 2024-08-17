@@ -101,7 +101,7 @@ let CategoriaController = class CategoriaController extends tsoa_1.Controller {
                 return success(200, new BasicResponseDto_1.BasicResponseDto("Categorias encontradas!", categorias));
             }
             catch (error) {
-                return notFound(400, new BasicResponseDto_1.BasicResponseDto("Nenhuma categoria encontrada...", undefined));
+                return notFound(400, new BasicResponseDto_1.BasicResponseDto("Categorias não encontradas...", undefined));
             }
         });
     }

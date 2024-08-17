@@ -78,7 +78,7 @@ async getCategorias(
         const categorias = await this.categoriaService.getCategorias();     
         return success(200, new BasicResponseDto("Categorias encontradas!", categorias));
     } catch (error: any) {
-        return notFound(400, new BasicResponseDto("Nenhuma categoria encontrada...", undefined));
+        return notFound(400, new BasicResponseDto("Categorias não encontradas...", undefined));
     }
 };
 /*
