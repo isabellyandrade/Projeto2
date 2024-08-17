@@ -1,8 +1,30 @@
-import { Request, Response } from "express";
 import { LivroService } from "../service/LivroService";
+import{Route, Tags, Post, Body, Res, Put, Get, Query, Delete, Controller, TsoaResponse } from "tsoa";
+import { BasicResponseDto } from "../model/dto/BasicResponseDto";
+import { LivroResquestDto } from "../model/dto/LivroRequestDto";
+import { LivroDto } from "../model/dto/LivroDto";
 
-const livroService = new LivroService();
+@Route("livro")
+@Tags("Livro")
+export class CategoriaController extends Controller{
+    livroService = new LivroService();
 
+    @Post()
+    async cadastrarLivro(
+        @Body() dto: LivroResquestDto,
+        @Res() fail: TsoaResponse<409, BasicResponseDto>,
+        @Res() success: TsoaResponse<201, BasicResponseDto>
+    ): Promise<void>{
+        try {
+            const novoLivro = await this.livroService.cadastrarLivro(dto);
+            return success(201, new BasicResponseDto("Livro adicionado com sucesso!", novoLivro));
+    }catch (error: any) {
+        return fail(409, new BasicResponseDto(error.message, undefined));
+    }
+
+};
+
+/*
 export async function cadastrarLivro (req: Request, res: Response){
     try {
         const novoLivro = await livroService.cadastrarLivro(req.body);
@@ -69,4 +91,5 @@ export async function getLivros(req: Request, res: Response) {
     } catch (error: any) {
         res.status(400).json({ message: error.message });
     }
+*/        
 };

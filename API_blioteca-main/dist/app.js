@@ -4,37 +4,51 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const LivroController_1 = require("./controller/LivroController");
-const CategoriaController_1 = require("./controller/CategoriaController");
-const EmprestimoController_1 = require("./controller/EmprestimoController");
-const UsuarioController_1 = require("./controller/UsuarioController");
-const PessoaContoller_1 = require("./controller/PessoaContoller");
+const routes_1 = require("./route/routes");
+const swagger_1 = require("./config/swagger");
 const app = (0, express_1.default)();
 const PORT = 3400;
 app.use(express_1.default.json());
-app.post("/api/livro", LivroController_1.cadastrarLivro);
-app.put("/api/livro", LivroController_1.atualizarLivro);
-app.delete("/api/livro", LivroController_1.deletarLivro);
-app.get("/api/livro", LivroController_1.getLivro);
-app.get("/api/livro/todos", LivroController_1.getLivros);
-app.post("/api/categoria", CategoriaController_1.cadastrarCategoria);
-app.put("/api/categoria", CategoriaController_1.atualizarCategoria);
-app.delete("/api/categoria", CategoriaController_1.deletarCategoria);
-app.get("/api/categoria", CategoriaController_1.getCategoria);
-app.get("/api/categoria/todos", CategoriaController_1.getCategorias);
-app.post("/api/emprestimo", EmprestimoController_1.cadastrarEmprestimo);
-app.put("/api/emprestimo", EmprestimoController_1.atualizarEmprestimo);
-app.delete("/api/emprestimo", EmprestimoController_1.deletarEmprestimo);
-app.get("/api/emprestimo", EmprestimoController_1.getEmprestimo);
-app.get("/api/emprestimo/todos", EmprestimoController_1.getEmprestimos);
-app.post("/api/usuario", UsuarioController_1.cadastrarUsuario);
-app.put("/api/usuario", UsuarioController_1.atualizarUsuario);
-app.delete("/api/usuario", UsuarioController_1.deletarUsuario);
-app.get("/api/usuario", UsuarioController_1.getUsuario);
-app.get("/api/usuario/todos", UsuarioController_1.getUsuarios);
-app.post("/api/pessoa", PessoaContoller_1.cadastrarPessoa);
-app.put("/api/pessoa", PessoaContoller_1.atualizarPessoa);
-app.delete("/api/pessoa", PessoaContoller_1.deletarPessoa);
-app.get("/api/pessoa", PessoaContoller_1.getPessoa);
-app.get("/api/pessoa/todos", PessoaContoller_1.getPessoas);
+const apiRouter = express_1.default.Router();
+(0, routes_1.RegisterRoutes)(apiRouter);
+app.use('/api', apiRouter);
+(0, routes_1.RegisterRoutes)(app);
+(0, swagger_1.setupSwagger)(app);
 app.listen(PORT, () => console.log("API online na porta: " + PORT));
+/*
+import { cadastrarLivro, atualizarLivro , deletarLivro, getLivro, getLivros } from './controller/LivroController';
+import { cadastrarCategoria, atualizarCategoria , deletarCategoria, getCategoria, getCategorias } from './controller/CategoriaController';
+import { cadastrarEmprestimo, atualizarEmprestimo , deletarEmprestimo, getEmprestimo, getEmprestimos } from './controller/EmprestimoController';
+import { cadastrarUsuario, atualizarUsuario , deletarUsuario, getUsuario, getUsuarios } from './controller/UsuarioController';
+import { cadastrarPessoa, atualizarPessoa , deletarPessoa, getPessoa, getPessoas } from './controller/PessoaContoller';
+
+app.post("/api/livro", cadastrarLivro)
+app.put("/api/livro", atualizarLivro)
+app.delete("/api/livro", deletarLivro)
+app.get("/api/livro", getLivro)
+app.get("/api/livro/todos", getLivros)
+
+app.post("/api/categoria", cadastrarCategoria)
+app.put("/api/categoria", atualizarCategoria)
+app.delete("/api/categoria", deletarCategoria)
+app.get("/api/categoria", getCategoria)
+app.get("/api/categoria/todos", getCategorias)
+
+app.post("/api/emprestimo", cadastrarEmprestimo)
+app.put("/api/emprestimo", atualizarEmprestimo)
+app.delete("/api/emprestimo", deletarEmprestimo)
+app.get("/api/emprestimo", getEmprestimo)
+app.get("/api/emprestimo/todos", getEmprestimos)
+
+app.post("/api/usuario", cadastrarUsuario)
+app.put("/api/usuario", atualizarUsuario)
+app.delete("/api/usuario", deletarUsuario)
+app.get("/api/usuario", getUsuario)
+app.get("/api/usuario/todos", getUsuarios)
+
+app.post("/api/pessoa", cadastrarPessoa)
+app.put("/api/pessoa", atualizarPessoa)
+app.delete("/api/pessoa", deletarPessoa)
+app.get("/api/pessoa", getPessoa)
+app.get("/api/pessoa/todos", getPessoas)
+*/

@@ -9,11 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cadastrarUsuario = cadastrarUsuario;
-exports.atualizarUsuario = atualizarUsuario;
-exports.deletarUsuario = deletarUsuario;
-exports.getUsuario = getUsuario;
-exports.getUsuarios = getUsuarios;
+exports.getUsuarios = exports.getUsuario = exports.deletarUsuario = exports.atualizarUsuario = exports.cadastrarUsuario = void 0;
 const UsuarioService_1 = require("../service/UsuarioService");
 const usuarioService = new UsuarioService_1.UsuarioService();
 function cadastrarUsuario(req, res) {
@@ -30,6 +26,7 @@ function cadastrarUsuario(req, res) {
         }
     });
 }
+exports.cadastrarUsuario = cadastrarUsuario;
 ;
 function atualizarUsuario(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -45,6 +42,7 @@ function atualizarUsuario(req, res) {
         }
     });
 }
+exports.atualizarUsuario = atualizarUsuario;
 ;
 function deletarUsuario(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -60,6 +58,7 @@ function deletarUsuario(req, res) {
         }
     });
 }
+exports.deletarUsuario = deletarUsuario;
 ;
 function getUsuario(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -74,6 +73,7 @@ function getUsuario(req, res) {
         }
     });
 }
+exports.getUsuario = getUsuario;
 function getUsuarios(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -87,4 +87,5 @@ function getUsuarios(req, res) {
         }
     });
 }
+exports.getUsuarios = getUsuarios;
 ;

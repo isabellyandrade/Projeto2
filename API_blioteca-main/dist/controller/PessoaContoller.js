@@ -9,11 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cadastrarPessoa = cadastrarPessoa;
-exports.atualizarPessoa = atualizarPessoa;
-exports.deletarPessoa = deletarPessoa;
-exports.getPessoa = getPessoa;
-exports.getPessoas = getPessoas;
+exports.getPessoas = exports.getPessoa = exports.deletarPessoa = exports.atualizarPessoa = exports.cadastrarPessoa = void 0;
 const PessoaService_1 = require("../service/PessoaService");
 const pessoaService = new PessoaService_1.PessoaService();
 function cadastrarPessoa(req, res) {
@@ -30,6 +26,7 @@ function cadastrarPessoa(req, res) {
         }
     });
 }
+exports.cadastrarPessoa = cadastrarPessoa;
 ;
 function atualizarPessoa(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -45,6 +42,7 @@ function atualizarPessoa(req, res) {
         }
     });
 }
+exports.atualizarPessoa = atualizarPessoa;
 ;
 function deletarPessoa(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -60,6 +58,7 @@ function deletarPessoa(req, res) {
         }
     });
 }
+exports.deletarPessoa = deletarPessoa;
 ;
 function getPessoa(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -74,6 +73,7 @@ function getPessoa(req, res) {
         }
     });
 }
+exports.getPessoa = getPessoa;
 function getPessoas(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -87,4 +87,5 @@ function getPessoas(req, res) {
         }
     });
 }
+exports.getPessoas = getPessoas;
 ;
